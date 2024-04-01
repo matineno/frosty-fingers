@@ -1,0 +1,7 @@
+{
+    "server": {
+      "baseDir": "./"
+    },
+    "files": ["index.html", "assets/style/index.css", "assets/script/index.js"]
+  }
+  
