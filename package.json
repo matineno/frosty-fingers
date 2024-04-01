@@ -1,0 +1,15 @@
+{
+  "name": "word-sprint-challenge",
+  "version": "1.0.0",
+  "description": "How fast can you is your typing skill<br> [Click Here](https://matineno.github.io/word-sprint-challenge/) to test.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
