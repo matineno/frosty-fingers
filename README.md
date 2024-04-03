@@ -1,9 +1,9 @@
-# Word Sprint Challenge
+# FrostyFingers
 
 [Click Here](https://matineno.github.io/word-sprint-challenge/) to test.
 
 ## Description
-Word Sprint Challenge is a fast-paced word game where players race against the clock to find as many words as possible within a given time limit.
+FrostyFingers is a fast-paced word game where players race against the clock to find as many words as possible within a given time limit.
 
 ## Features
 - Timer: Race against time to find words before the clock runs out.
@@ -13,7 +13,7 @@ Word Sprint Challenge is a fast-paced word game where players race against the c
 - Leaderboard: Compete with other players and climb the leaderboard. (Coming Soon)
 
 ## Screenshots
-![Word Sprint Challenge](screenshot.png)
+![FrostyFingers](screenshot.png)
 
 ## How to Play
 1. Start the game by clicking the "Play" button.
