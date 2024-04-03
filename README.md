@@ -1,5 +1,7 @@
 # Word Sprint Challenge
 
+[Click Here](https://matineno.github.io/word-sprint-challenge/) to test.
+
 ## Description
 Word Sprint Challenge is a fast-paced word game where players race against the clock to find as many words as possible within a given time limit.
 
