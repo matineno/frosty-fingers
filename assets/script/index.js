@@ -18,12 +18,19 @@ let startingScore = 0;
 let shuffledArray = randomizeWords();
 let inputIsVisible = false;
 let sound; // declare sound variable globally
+let backgroundSound;
+
+// Sound on page load
+utils.listen('DOMContentLoaded', document, () => {
+  startbackgroundAudio();
+});
 
 // Start game
 utils.listen('click', startButton, () => {
   resetGame(); // Reset game, timer, and sound
   startTimer();
   startSound();
+  startbackgroundAudio();
   displayWord();
   if (!inputIsVisible) {
   displayInputArea();
@@ -34,6 +41,7 @@ utils.listen('click', startButton, () => {
 utils.listen('click', stopButton, () => {
   resetGame();
   gameEnded();
+  startbackgroundAudio();
 });
 
 utils.listen('input', input, () => {
@@ -54,6 +62,7 @@ function startTimer() {
       clearInterval(timerInterval);
       timerElement.textContent = 'Time\'s up!';
       gameEnded();
+      startbackgroundAudio()
     }
   }, 1000);
 }
@@ -66,6 +75,12 @@ function startSound() {
   sound = new Audio('./assets/media/alarm.mp3');
   sound.loop = true;
   sound.play();
+}
+
+function startbackgroundAudio() {
+  backgroundSound = new Audio('./assets/media/background-music.mp3');
+  backgroundSound.loop = true;
+  backgroundSound.play();
 }
 
 function displayWord() {
@@ -113,11 +128,11 @@ function clearInput() {
 // Reset game, timer, and sound
 function resetGame() {
   clearInterval(timerInterval);
+  timerElement.textContent = '';
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
   }
-  input.disabled = false;
   currentScore.textContent = startingScore;
   shuffledArray = randomizeWords();
 }

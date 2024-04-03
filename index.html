@@ -23,7 +23,7 @@
                         <p>Time</p>
                         <p class="time-left" id="time-remaining">0</p>
                     </span>
-                        <p class="time-up" id="timer"></p>
+                        <p class="time-up" id="timer" class="visible"></p>
                     <span>
                         <p>Score</p>
                         <p class="score" id="current-score">0</p>
@@ -37,8 +37,14 @@
                 </div>
             </div>
             <div class="play-menu flex gap-50">
-            <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
-            <i class="fa-solid fa-play" id="start-button" class="button"></i>
+            <span>
+                <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
+                <p class="start-text">Stop</p>
+            </span>
+            <span>
+                <i class="fa-solid fa-play" id="start-button" class="button"></i>
+                <p class="stop-text">Start</p>
+            </span>
             </div>
         </main>
     </body>
