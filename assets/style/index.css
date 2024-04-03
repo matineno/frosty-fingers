@@ -1,8 +1,20 @@
 @charset "utf-8";
 
+@font-face {
+    font-family: 'Snowballs Header';
+    src: url('../fonts/snowballs/Snowballs.otf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Snowballs Custom';
+    src: url('../fonts/snowballs/Snowballs.ttf') format('truetype');
+    font-weight: normal;
+}
+
 :root {
   --background-color-one: rgb(16, 20, 32);
-  --background-color-two: rgba(235, 237, 243, 0.668);
+  --background-color-two: rgb(235, 237, 243);
   --input-background-color: rgb(255 255 255 / 0.05);
   --font-color-one: rgb(240, 235, 235);
   --font-color-two: rgb(16, 20, 32);
@@ -11,7 +23,7 @@
 
 .container {
     width: 500px;
-    height: 200px;
+    height: 300px;
     margin: 0 auto;
     position: absolute;
     top: 50%;
@@ -34,13 +46,50 @@
 }
 
 body {
-    background-color: var(--background-color-one);
-    color: var(--font-color-one);
-}
+    background-image: url("../media/background.gif");
+    background-repeat: repeat;
+  }
 
-h2, h3, p {
+h1, h2, h3, p {
     text-align: center;
     margin: 5px;
+}
+
+.title {
+    font-family: 'Snowballs Header', sans-serif;
+    letter-spacing: 5px;
+    margin: 100px auto;
+    color: #fff;
+    box-shadow: -2px -5px 15px #000000 20%;
+}
+
+.play-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.time-left {
+    font-family: 'Snowballs Custom', sans-serif;
+    font-size: 50px;
+    margin: -10px 20px;
+
+}
+
+.score {
+    font-family: 'Snowballs Custom', sans-serif;
+    font-size: 50px;
+    margin: -10px 20px;  
+}
+
+.output-word {
+    font-family: 'Snowballs Header', sans-serif;
+    letter-spacing: 5px;
+    font-size: 50px;
+    margin: 20px;  
+
 }
 
 input {
@@ -54,9 +103,10 @@ input {
 }
 
 i {
+    font-size: 25px;
     margin: 5px 0px;
     margin-left: 20px;
-    color:green;
+    color: var(--background-color-two);
     &:hover{
         cursor: pointer;
     }
@@ -67,5 +117,5 @@ i {
     bottom: 0;
     right: 0;
     padding: 10px; 
-
+    color: #fff;
 }
