@@ -45,6 +45,10 @@
     justify-content: center;
 }
 
+.gap-50 {
+    gap: 20px;
+}
+
 body {
     background-image: url("../media/background.gif");
     background-repeat: repeat;
@@ -56,11 +60,14 @@ h1, h2, h3, p {
 }
 
 .title {
-    position: relative;
+    font-size: 40px;
+    position: absolute;
     font-family: 'Snowballs Header', sans-serif;
     letter-spacing: 5px;
-    margin: 100px auto;
     color: #fff;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     box-shadow: -2px -5px 15px #000000 20%;
 }
 
@@ -94,7 +101,7 @@ h1, h2, h3, p {
 }
 
 input {
-    display: block;
+    display: none;
     margin: 0 auto;
     width: 300px; /* Adjust width as needed */
     padding: 10px;
@@ -103,20 +110,36 @@ input {
     text-align: center;
 }
 
+.visible {
+    display: block;
+}
+
 i {
-    font-size: 25px;
-    margin: 5px 0px;
-    margin-left: 20px;
-    color: var(--background-color-two);
+    font-size: 40px;
+    color: #fff;
     &:hover{
         cursor: pointer;
     }
 }
 
+#stop-button {
+    &:hover{
+        color: #ffbf00;
+        text-shadow: 2px 2px 10px rgb(255, 255, 255);
+    }
+}
+
+#start-button {
+    &:hover{
+        color:  #01875f;
+        text-shadow: 2px 2px 10px rgb(255, 255, 255);
+    }
+}
+
 .play-menu {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 10px; 
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #fff;
 }

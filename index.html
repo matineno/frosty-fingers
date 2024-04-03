@@ -6,7 +6,7 @@
         <meta name="author" content="Manpreet Kaur">
         <meta name="description" content="Movies Search">
         <meta name="keywords" content="html, css, web, web development, javascript">
-        <title>Word Sprint</title>
+        <title>FrostyFingers</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.ttf">
         <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.otf">
@@ -16,7 +16,7 @@
     <body>
         <main>
 
-            <h1 class="title">Word Sprint</h1>
+            <h1 class="title">FrostyFingers</h1>
             <div class="container">
                 <div class="flex space-between">
                     <span>
@@ -32,13 +32,13 @@
                 <div class="play-area">
                     <h3 class="output-word" id="word-display">Press the play button</h3>
                     <form>
-                        <input type="text" class="input" id="user-input" placeholder="Please type the word here">
+                        <input type="text" class="input" class="visible" id="user-input" placeholder="Please type the word here">
                     </form>
                 </div>
             </div>
-            <div class="play-menu">
+            <div class="play-menu flex gap-50">
+            <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
             <i class="fa-solid fa-play" id="start-button" class="button"></i>
-            <p>Play now</p>
             </div>
         </main>
     </body>
