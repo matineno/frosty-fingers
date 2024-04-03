@@ -52,3 +52,20 @@ input {
     border-radius: 5px;
     text-align: center;
 }
+
+i {
+    margin: 5px 0px;
+    margin-left: 20px;
+    color:green;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.play-menu {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px; 
+
+}

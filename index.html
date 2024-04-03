@@ -17,14 +17,25 @@
             <div class="container">
                 <h2>Word Sprint</h2>
                 <div class="flex space-between">
-                <p>Time Left:</p>
-                <p>Score:</p>
+                    <span class="flex">
+                        <p>Time Left:</p>
+                        <p class="time-left" id="time-remaining"></p>
+                        <p id="timer"></p>
+                    </span>
+                    <span class="flex">
+                        <p>Score:</p>
+                        <p class="score" id="current-score">0</p>
+                    </span>
                 </div>
                 <p>Type the following words</p>
-                <h3>APPLE</h3>
+                <h3 class="output-word" id="word-display"></h3>
                 <form>
-                    <input type="text" class="input" placeholder="Please type the word here">
+                    <input type="text" class="input" id="user-input" placeholder="Please type the word here">
                 </form>
+            </div>
+            <div class="play-menu">
+            <i class="fa-solid fa-play" id="start-button" class="button"></i>
+            <p>Play now</p>
             </div>
         </main>
     </body>
