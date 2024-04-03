@@ -129,11 +129,19 @@ i {
     }
 }
 
+.stop-text {
+    margin: auto;
+}
+
 #start-button {
     &:hover{
         color:  #01875f;
         text-shadow: 2px 2px 10px rgb(255, 255, 255);
     }
+}
+
+.start-text {
+    margin: auto;
 }
 
 .play-menu {
