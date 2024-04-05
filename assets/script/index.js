@@ -8,6 +8,7 @@ const displayedWord = utils.getElement('word-display');
 const input = utils.getElement('user-input');
 const startButton = utils.getElement('start-button');
 const stopButton = utils.getElement('stop-button');
+const scoreButton = utils.getElement('leader-board');
 const timerDuration = 99;
 let timeRemaining = timerDuration;
 let timerInterval;
@@ -19,6 +20,9 @@ let shuffledArray = randomizeWords();
 let inputIsVisible = false;
 let sound; // declare sound variable globally
 let backgroundSound;
+let playerHits = 0;
+let playerPercentage = 0;
+let scoresArray = []; // Array to store scores
 
 // Sound on page load
 utils.listen('DOMContentLoaded', document, () => {
@@ -41,6 +45,7 @@ utils.listen('click', startButton, () => {
 utils.listen('click', stopButton, () => {
   resetGame();
   gameEnded();
+  updateScores(); // Update scores when game ends
   startbackgroundAudio();
 });
 
@@ -62,6 +67,7 @@ function startTimer() {
       clearInterval(timerInterval);
       timerElement.textContent = 'Time\'s up!';
       gameEnded();
+      updateScores(); // Update scores when time's up
       startbackgroundAudio()
     }
   }, 1000);
@@ -104,6 +110,7 @@ function checkInput() {
     updateWord();
     updateScore();
     clearInput();
+    updateHitsAndPercentage();
   }
 }
 
@@ -121,6 +128,11 @@ function updateScore() {
   currentScore.textContent++;
 }
 
+function updateHitsAndPercentage() {
+  playerHits++;
+  playerPercentage = ((playerHits / currentScore.textContent) * 100).toFixed(2);
+}
+
 function clearInput() {
   input.value = '';
 }
@@ -135,6 +147,19 @@ function resetGame() {
   }
   currentScore.textContent = startingScore;
   shuffledArray = randomizeWords();
+  playerHits = 0; // Reset player hits
+  playerPercentage = 0; // Reset player percentage
+}
+
+// Update scores array
+function updateScores() {
+  const scoreObj = { hits: playerHits, percentage: playerPercentage };
+  scoresArray.push(scoreObj);
+  scoresArray.sort((a, b) => b.hits - a.hits); // Sort scores by hits
+  if (scoresArray.length > 9) {
+    scoresArray.splice(9); // Keep only top 9 scores
+  }
+  localStorage.setItem('scores', JSON.stringify(scoresArray)); // Store scores in localStorage
 }
 
 // End Game
