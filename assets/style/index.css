@@ -160,3 +160,7 @@ i {
     transform: translate(-50%, -50%);
     color: #fff;
 }
+
+.scores-list {
+    color: #fff;
+}

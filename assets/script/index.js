@@ -5,6 +5,7 @@ import words from './words.js';
 
 // Variables and Constants
 const displayedWord = utils.getElement('word-display');
+const scoreOutput = utils.getElement('score-output');
 const input = utils.getElement('user-input');
 const startButton = utils.getElement('start-button');
 const stopButton = utils.getElement('stop-button');
@@ -22,7 +23,51 @@ let sound; // declare sound variable globally
 let backgroundSound;
 let playerHits = 0;
 let playerPercentage = 0;
-let scoresArray = []; // Array to store scores
+
+// Define the Score class
+class Score {
+  constructor(hits, percentage) {
+    this.hits = hits;
+    this.percentage = percentage;
+  }
+
+  getHits() {
+    return `${this.hits}`;
+  }
+
+  getPercentage() {
+    return `${this.percentage}`;
+  }
+}
+
+// Retrieve scores from local storage
+let scoresArray = JSON.parse(localStorage.getItem('scores')) || [];
+
+// Function to create ul and li elements from scores
+function createScoreList(scores) {
+  const ul = document.createElement('ul');
+  scores.forEach((score, index) => {
+    const li = document.createElement('li');
+    li.classList.add('flex');
+    li.innerHTML = `
+      <p>${index + 1}</p>
+      <p>${score.hits}</p>
+      <p>${score.percentage}</p>
+    `;
+    ul.appendChild(li);
+  });
+
+  return ul.outerHTML; // Return the outerHTML of the ul
+}
+
+// Initialize scores
+const scores = scoresArray.map(score => new Score(score.hits, score.percentage));
+
+// Create HTML elements and set innerHTML of scoreOutput
+const scoresListHTML = createScoreList(scores);
+scoreOutput.innerHTML = scoresListHTML;
+scoreOutput.classList.add('scores-list');
+
 
 // Sound on page load
 utils.listen('DOMContentLoaded', document, () => {
@@ -46,6 +91,7 @@ utils.listen('click', stopButton, () => {
   //resetGame();
   gameEnded();
   stopTimer();
+  createScoreList(scoresArray);
   //startbackgroundAudio();
 });
 
@@ -67,7 +113,6 @@ function startTimer() {
       clearInterval(timerInterval);
       timerElement.textContent = 'Time\'s up!';
       gameEnded();
-      updateScores(); // Update scores when time's up
       startbackgroundAudio()
     }
   }, 1000);
@@ -111,7 +156,6 @@ function removeInputArea() {
 
 function checkInput() {
   let gotAMatch = displayedWord.textContent === input.value;
-  console.log(`array length: ${shuffledArray.length}`);
   if (gotAMatch) {
     updateWord();
     updateScore();
