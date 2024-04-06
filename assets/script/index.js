@@ -43,10 +43,10 @@ utils.listen('click', startButton, () => {
 
 // End game
 utils.listen('click', stopButton, () => {
-  resetGame();
+  //resetGame();
   gameEnded();
-  updateScores(); // Update scores when game ends
-  startbackgroundAudio();
+  stopTimer();
+  //startbackgroundAudio();
 });
 
 utils.listen('input', input, () => {
@@ -71,6 +71,12 @@ function startTimer() {
       startbackgroundAudio()
     }
   }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timeRemaining = timeRemaining;
+  timeRemainingSpan.textContent = timeRemaining;
 }
 
 function startSound() {
@@ -153,6 +159,7 @@ function resetGame() {
 
 // Update scores array
 function updateScores() {
+  playerHits = playerHits;
   const scoreObj = { hits: playerHits, percentage: playerPercentage };
   scoresArray.push(scoreObj);
   scoresArray.sort((a, b) => b.hits - a.hits); // Sort scores by hits
@@ -163,10 +170,14 @@ function updateScores() {
 }
 
 // End Game
+
 function gameEnded() {
   removeInputArea();
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
+    console.log(scoresArray);
   }
+  updateScores(); // Call the function to update scores array and store in local storage
 }
+
