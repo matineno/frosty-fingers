@@ -17,39 +17,45 @@
         <main>
             <h1 class="title">FrostyFingers</h1>
             <div class="container">
-                <div class="flex space-between">
-                    <span>
-                        <p>Time</p>
-                        <p class="time-left" id="time-remaining">0</p>
-                    </span>
-                        <p class="time-up" id="timer" class="visible"></p>
-                    <span>
-                        <p>Score</p>
-                        <p class="score" id="current-score">0</p>
-                    </span>
+                <div id="play-area" class="isvisible">
+                    <div class="flex space-between">
+                        <span>
+                            <p>Time</p>
+                            <p class="time-left" id="time-remaining">0</p>
+                        </span>
+                        <span>
+                            <p class="time-up" id="timer" class="visible"></p>
+                        </span>
+                        <span>
+                            <p>Score</p>
+                            <p class="score" id="current-score">0</p>
+                        </span>
+                    </div>
+                    <div class="play-area">
+                        <h3 id="word-display" class="output-word">Press the play button</h3>
+                        <form>
+                            <input type="text" class="input" class="visible" id="user-input" placeholder="Please type the word here">
+                        </form>
+                    </div>
                 </div>
-                <div class="play-area">
-                    <h3 class="output-word" id="word-display">Press the play button</h3>
-                    <form>
-                        <input type="text" class="input" class="visible" id="user-input" placeholder="Please type the word here">
-                    </form>
+                <div id="score-output" >
+                    <p class="leader-board-title">LeaderBoard</p>
+                    <div class="scores-list"></div>
                 </div>
-                <p class="leader-board" id="leader-board">LeaderBoard</p>
             </div>
-            <div class="play-menu flex gap-50">
-            <span>
-                <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
-                <p class="start-text">Stop</p>
-            </span>
-            <span>
-                <i class="fa-solid fa-play" id="start-button" class="button"></i>
-                <p class="stop-text">Start</p>
-            </span>
-            <span>
-                <i class="fa-solid fa-snowflake"></i>
-                <p class="stop-text">Start</p>
-            </span>
-            <div id="score-output"></div>
+            <div class="play-menu flex gap-20">
+                <span>
+                    <i class="fa-regular fa-rectangle-list" id="leader-board" class="button"></i>
+                </span>
+                <span>
+                    <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
+                </span>
+                <span>
+                    <i class="fa-solid fa-play" id="start-button" class="button"></i>
+                </span>
+                <span>
+                    <i class="fa-solid fa-snowflake"></i>
+                </span>
             </div>
         </main>
     </body>

@@ -45,8 +45,12 @@
     justify-content: center;
 }
 
-.gap-50 {
+.gap-20 {
     gap: 20px;
+}
+
+.gap-50 {
+    gap: 50px;
 }
 
 body {
@@ -76,14 +80,30 @@ h1, h2, h3, p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
 }
 
-.leader-board {
+#play-area {
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    overflow: hidden;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+    
+  #play-area.isvisible {
     position: absolute;
-    bottom: calc(50% - 160px);
-    left: 50%;
-    transform: translate(-50%, -50%);
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+  }
+
+.leader-board-title {
+    font-family: 'Snowballs Custom', sans-serif;
+    letter-spacing: 5px;
+    font-size: 25px;
     &:hover {
         cursor: pointer;
         text-decoration: underline;
@@ -108,7 +128,51 @@ h1, h2, h3, p {
     letter-spacing: 5px;
     font-size: 50px;
     margin: 20px;  
+}
 
+
+#score-output {
+    cursor: default;
+    overflow: hidden;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translate(-50%, -52%);
+    -moz-transform: translate(-50%, -52%);
+    transform: translate(-50%, -52%);
+}
+  
+    
+#score-output.isvisible {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.scores-list {
+    width: 320px;
+    height: 300px;
+    margin: 20px;  
+    padding-top: 40px;
+    justify-content: center;
+   
+    ul { 
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 100px);
+        grid-gap: 12px;
+        justify-content: center; 
+        align-items: center;
+      }
+
+      ul li {
+        margin-right: 10px;
+      }
 }
 
 input {
@@ -126,7 +190,10 @@ input {
 }
 
 i {
+    margin: 0 auto;
     font-size: 40px;
+    text-align: center;
+    justify-content: center;
     color: #fff;
     &:hover{
         cursor: pointer;
@@ -158,9 +225,5 @@ i {
     bottom: calc(50% - 280px);
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff;
-}
-
-.scores-list {
     color: #fff;
 }

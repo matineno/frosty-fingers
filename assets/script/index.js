@@ -9,7 +9,8 @@ const scoreOutput = utils.getElement('score-output');
 const input = utils.getElement('user-input');
 const startButton = utils.getElement('start-button');
 const stopButton = utils.getElement('stop-button');
-const scoreButton = utils.getElement('leader-board');
+const leaderBoard = utils.getElement('leader-board');
+const playArea = utils.getElement('play-area');
 const timerDuration = 99;
 let timeRemaining = timerDuration;
 let timerInterval;
@@ -93,6 +94,11 @@ utils.listen('click', stopButton, () => {
   stopTimer();
   createScoreList(scoresArray);
   //startbackgroundAudio();
+});
+
+utils.listen('click', leaderBoard, () => {
+  tooglePlayArea();
+  toogleLeaderBoard()
 });
 
 utils.listen('input', input, () => {
@@ -223,5 +229,27 @@ function gameEnded() {
     console.log(scoresArray);
   }
   updateScores(); // Call the function to update scores array and store in local storage
+}
+
+let leaderboardIsVisible = false;
+function toogleLeaderBoard() {
+  if (!leaderboardIsVisible){
+    scoreOutput.classList.add('isvisible');
+    leaderboardIsVisible = true;
+  } else {
+    scoreOutput.classList.remove('isvisible');
+    leaderboardIsVisible = false;
+  }
+}
+
+let playAreaisVisible = true; //play area visible at default
+function tooglePlayArea() {
+  if (!playAreaisVisible) {
+    playArea.classList.add('isvisible');
+    playAreaisVisible = true;
+  }else {
+    playArea.classList.remove('isvisible');
+    playAreaisVisible = false;
+  }
 }
 
