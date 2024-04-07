@@ -22,16 +22,32 @@ let startingScore = 0;
 let shuffledArray = randomizeWords();
 let inputIsVisible = false;
 let gameRunning = false;
-let sound; // declare sound variable globally
+let sound;
 let backgroundSound;
 let playerHits = 0;
 let playerPercentage = 0;
 
+class CustomDate {
+  constructor() {
+    this.currentDate = new Date();
+  }
+
+  getCurrentDate() {
+    const day = this.currentDate.getDate();
+    const month = this.currentDate.getMonth() + 1;
+    return `${day}/${month}`;
+  }
+}
+
+let thisDay = new CustomDate();
+
 // Define the Score class
 class Score {
-  constructor(hits, percentage) {
+  constructor(hits, playerPercentage, thisDay) {
     this.hits = hits;
-    this.percentage = percentage;
+    this.percentage = playerPercentage;
+    this.thisDay = thisDay;
+
   }
 
   getHits() {
@@ -40,6 +56,10 @@ class Score {
 
   getPercentage() {
     return `${this.percentage}`;
+  }
+
+  getThisDay() {
+    return `${this.thisDay}`;
   }
 }
 
@@ -53,9 +73,9 @@ function createScoreList(scores) {
     const li = document.createElement('li');
     li.classList.add('flex');
     li.innerHTML = `
-      <p>${index + 1}</p>
-      <p>${score.hits}</p>
-      <p>${score.percentage}</p>
+      <p>${score.thisDay}</p>
+      <p class="bold">${score.hits}</p>
+      <p>${score.percentage}%</p>
     `;
     ul.appendChild(li);
   });
@@ -64,7 +84,8 @@ function createScoreList(scores) {
 }
 
 // Initialize scores
-const scores = scoresArray.map(score => new Score(score.hits, score.percentage));
+const scores = scoresArray.map(score => new Score(score.hits, score.percentage, score.thisDay));
+console.log()
 
 // Create HTML elements and set innerHTML of scoreOutput
 const scoresListHTML = createScoreList(scores);
@@ -192,7 +213,8 @@ function updateScore() {
 
 function updateHitsAndPercentage() {
   playerHits++;
-  playerPercentage = ((playerHits / currentScore.textContent) * 100).toFixed(2);
+  playerPercentage = ((playerHits / words.length) * 100).toFixed(2);
+  console.log(playerPercentage)
 }
 
 function clearInput() {
@@ -216,13 +238,15 @@ function resetGame() {
 // Update scores array
 function updateScores() {
   playerHits = playerHits;
-  const scoreObj = { hits: playerHits, percentage: playerPercentage };
+  const currentDate = thisDay.getCurrentDate(); // Get the current date
+  const scoreObj = { hits: playerHits, percentage: playerPercentage, thisDay: currentDate }; // Include the current date in the score object
   scoresArray.push(scoreObj);
   scoresArray.sort((a, b) => b.hits - a.hits); // Sort scores by hits
   if (scoresArray.length > 9) {
     scoresArray.splice(9); // Keep only top 9 scores
   }
   localStorage.setItem('scores', JSON.stringify(scoresArray)); // Store scores in localStorage
+
 }
 
 // End Game
