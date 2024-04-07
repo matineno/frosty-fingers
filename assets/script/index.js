@@ -12,7 +12,7 @@ const stopButton = utils.getElement('stop-button');
 const leaderBoard = utils.getElement('leader-board');
 const leaderBoardButton = utils.getElement('leader-board-button');
 const playArea = utils.getElement('play-area');
-const timerDuration = 99;
+const timerDuration = 60;
 let timeRemaining = timerDuration;
 let timerInterval;
 const timerElement = utils.getElement('timer');
@@ -73,9 +73,10 @@ function createScoreList(scores) {
     const li = document.createElement('li');
     li.classList.add('flex');
     li.innerHTML = `
-      <p>${score.thisDay}</p>
-      <p class="bold">${score.hits}</p>
-      <p>${score.percentage}%</p>
+      <div><p class="bold">${index + 1}.</p></div>
+      <div><p>${score.thisDay}</p></div>
+      <div><p class="bold">${score.hits}</p></div>
+      <div><p>${score.percentage}%</p></div>
     `;
     ul.appendChild(li);
   });
@@ -92,7 +93,6 @@ const scoresListHTML = createScoreList(scores);
 scoreOutput.innerHTML = scoresListHTML;
 scoreOutput.classList.add('scores-list');
 
-
 // Sound on page load
 utils.listen('DOMContentLoaded', document, () => {
   startbackgroundAudio();
@@ -100,23 +100,19 @@ utils.listen('DOMContentLoaded', document, () => {
 
 // Start game
 utils.listen('click', startButton, () => {
-  toogleStopButton();
-  toggleInputArea();
-  resetGame(); // Reset game, timer, and sound
-  startGame();
-  startSound();
-  startbackgroundAudio();
-  displayWord();
+  if(!leaderboardIsVisible){
+    resetGame();
+    toogleStopButton();
+    toggleInputArea();
+    gameStarted();
+    
+  }
 });
 
 // End game
 utils.listen('click', stopButton, () => {
-  toogleStartButton();
-  toggleInputArea();
-  endGame();
-  stopTimer();
-  createScoreList(scoresArray);
-  //startbackgroundAudio();
+  gameEnded();
+  resetGame();
 });
 
 utils.listen('click', leaderBoardButton, () => {
@@ -136,6 +132,7 @@ function randomizeWords() {
 
 function startGame() {
   inputIsVisible = true;
+  input.focus();
   timeRemaining = timerDuration; // Reset time remaining
   timeRemainingSpan.textContent = timeRemaining;
   timerInterval = setInterval(() => {
@@ -143,11 +140,26 @@ function startGame() {
     timeRemainingSpan.textContent = timeRemaining;
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
-      timerElement.textContent = 'Time\'s up!';
+      displayedWord.textContent = 'Time\'s up!';
       gameEnded();
-      startbackgroundAudio()
+      clearInput();
+      setTimeout(resetGame, 3000);
     }
   }, 1000);
+}
+function gameStarted () {
+    startGame();
+    startSound();
+    startbackgroundAudio();
+    displayWord();
+}
+
+function gameEnded() {
+  toggleInputArea();
+  endGame();
+  stopTimer();
+  createScoreList(scoresArray);
+  toogleStartButton();
 }
 
 function stopTimer() {
@@ -186,10 +198,18 @@ function toggleInputArea() {
   }
 }
 
-
 function checkInput() {
-  let gotAMatch = displayedWord.textContent === input.value;
-  if (gotAMatch) {
+  let inputText = input.value.trim();
+  let displayedText = displayedWord.textContent.trim(); 
+
+  for (let i = 0; i < inputText.length && i < displayedText.length; i++) {
+    if (inputText[i] !== displayedText[i]) {
+      clearInput();
+      updateWord();
+      return;
+    }
+  }
+  if (inputText === displayedText) {
     updateWord();
     updateScore();
     clearInput();
@@ -197,13 +217,11 @@ function checkInput() {
   }
 }
 
+
 function updateWord() {
   if (shuffledArray.length >= 1) {
     shuffledArray.shift();
     displayedWord.textContent = shuffledArray[0];
-  } else {
-    gameEnded();
-    displayedWord.textContent = 'You\'ve beat the game!';
   }
 }
 
@@ -211,10 +229,20 @@ function updateScore() {
   currentScore.textContent++;
 }
 
+function calculatePercentage (playerHits, words) {
+  let percent = ((playerHits / words.length) * 100).toFixed(0);
+  if (percent >= 100) {
+    gameEnded();
+    displayedWord.textContent = 'You Win!';
+      setTimeout(resetGame, 3000);
+    return 100;
+  }
+  return percent;
+};
+
 function updateHitsAndPercentage() {
   playerHits++;
-  playerPercentage = ((playerHits / words.length) * 100).toFixed(2);
-  console.log(playerPercentage)
+  playerPercentage = calculatePercentage(playerHits, words);
 }
 
 function clearInput() {
@@ -224,15 +252,21 @@ function clearInput() {
 // Reset game, timer, and sound
 function resetGame() {
   clearInterval(timerInterval);
-  timerElement.textContent = '';
+  timeRemainingSpan.textContent = 0;
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
   }
-  currentScore.textContent = startingScore;
+  displayedWord.textContent = 'Press the play button';
+  currentScore.textContent = 0;
   shuffledArray = randomizeWords();
   playerHits = 0; // Reset player hits
   playerPercentage = 0; // Reset player percentage
+  toogleStartButton()
+  if (inputIsVisible) {
+    input.classList.toggle('visible');
+    inputIsVisible = false;
+}
 }
 
 // Update scores array
@@ -242,11 +276,10 @@ function updateScores() {
   const scoreObj = { hits: playerHits, percentage: playerPercentage, thisDay: currentDate }; // Include the current date in the score object
   scoresArray.push(scoreObj);
   scoresArray.sort((a, b) => b.hits - a.hits); // Sort scores by hits
-  if (scoresArray.length > 9) {
-    scoresArray.splice(9); // Keep only top 9 scores
+  if (scoresArray.length > 10) {
+    scoresArray.splice(10); // Keep only top 9 scores
   }
   localStorage.setItem('scores', JSON.stringify(scoresArray)); // Store scores in localStorage
-
 }
 
 // End Game
@@ -255,7 +288,6 @@ function endGame() {
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
-    console.log(scoresArray);
   }
   updateScores(); // Call the function to update scores array and store in local storage
 }
