@@ -5,10 +5,13 @@ import words from './words.js';
 
 // Variables and Constants
 const displayedWord = utils.getElement('word-display');
+const scoreOutput = utils.getElement('score-output');
 const input = utils.getElement('user-input');
 const startButton = utils.getElement('start-button');
 const stopButton = utils.getElement('stop-button');
-const scoreButton = utils.getElement('leader-board');
+const leaderBoard = utils.getElement('leader-board');
+const leaderBoardButton = utils.getElement('leader-board-button');
+const playArea = utils.getElement('play-area');
 const timerDuration = 99;
 let timeRemaining = timerDuration;
 let timerInterval;
@@ -18,11 +21,56 @@ let currentScore = utils.getElement('current-score');
 let startingScore = 0;
 let shuffledArray = randomizeWords();
 let inputIsVisible = false;
+let gameRunning = false;
 let sound; // declare sound variable globally
 let backgroundSound;
 let playerHits = 0;
 let playerPercentage = 0;
-let scoresArray = []; // Array to store scores
+
+// Define the Score class
+class Score {
+  constructor(hits, percentage) {
+    this.hits = hits;
+    this.percentage = percentage;
+  }
+
+  getHits() {
+    return `${this.hits}`;
+  }
+
+  getPercentage() {
+    return `${this.percentage}`;
+  }
+}
+
+// Retrieve scores from local storage
+let scoresArray = JSON.parse(localStorage.getItem('scores')) || [];
+
+// Function to create ul and li elements from scores
+function createScoreList(scores) {
+  const ul = document.createElement('ul');
+  scores.forEach((score, index) => {
+    const li = document.createElement('li');
+    li.classList.add('flex');
+    li.innerHTML = `
+      <p>${index + 1}</p>
+      <p>${score.hits}</p>
+      <p>${score.percentage}</p>
+    `;
+    ul.appendChild(li);
+  });
+
+  return ul.outerHTML; // Return the outerHTML of the ul
+}
+
+// Initialize scores
+const scores = scoresArray.map(score => new Score(score.hits, score.percentage));
+
+// Create HTML elements and set innerHTML of scoreOutput
+const scoresListHTML = createScoreList(scores);
+scoreOutput.innerHTML = scoresListHTML;
+scoreOutput.classList.add('scores-list');
+
 
 // Sound on page load
 utils.listen('DOMContentLoaded', document, () => {
@@ -31,22 +79,30 @@ utils.listen('DOMContentLoaded', document, () => {
 
 // Start game
 utils.listen('click', startButton, () => {
+  toogleStopButton();
+  toggleInputArea();
   resetGame(); // Reset game, timer, and sound
-  startTimer();
+  startGame();
   startSound();
   startbackgroundAudio();
   displayWord();
-  if (!inputIsVisible) {
-  displayInputArea();
-  }
 });
 
 // End game
 utils.listen('click', stopButton, () => {
-  resetGame();
-  gameEnded();
-  updateScores(); // Update scores when game ends
-  startbackgroundAudio();
+  toogleStartButton();
+  toggleInputArea();
+  endGame();
+  stopTimer();
+  createScoreList(scoresArray);
+  //startbackgroundAudio();
+});
+
+utils.listen('click', leaderBoardButton, () => {
+  if(!gameRunning){
+    tooglePlayArea();
+    toogleLeaderBoard()
+  }
 });
 
 utils.listen('input', input, () => {
@@ -57,7 +113,8 @@ function randomizeWords() {
   return words.sort(() => Math.random() - 0.5);
 }
 
-function startTimer() {
+function startGame() {
+  inputIsVisible = true;
   timeRemaining = timerDuration; // Reset time remaining
   timeRemainingSpan.textContent = timeRemaining;
   timerInterval = setInterval(() => {
@@ -67,10 +124,15 @@ function startTimer() {
       clearInterval(timerInterval);
       timerElement.textContent = 'Time\'s up!';
       gameEnded();
-      updateScores(); // Update scores when time's up
       startbackgroundAudio()
     }
   }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timeRemaining = timeRemaining;
+  timeRemainingSpan.textContent = timeRemaining;
 }
 
 function startSound() {
@@ -93,19 +155,19 @@ function displayWord() {
   displayedWord.textContent = shuffledArray[0];
 }
 
-function displayInputArea() {
-  input.classList.toggle('visible');
-  inputIsVisible = true;
+function toggleInputArea() {
+  if (inputIsVisible) {
+    input.classList.toggle('visible');
+    inputIsVisible = false;
+  } else {
+    input.classList.toggle('visible');
+    inputIsVisible = true;
+  }
 }
 
-function removeInputArea() {
-  input.classList.remove('visible');
-  inputIsVisible = false;
-}
 
 function checkInput() {
   let gotAMatch = displayedWord.textContent === input.value;
-  console.log(`array length: ${shuffledArray.length}`);
   if (gotAMatch) {
     updateWord();
     updateScore();
@@ -153,6 +215,7 @@ function resetGame() {
 
 // Update scores array
 function updateScores() {
+  playerHits = playerHits;
   const scoreObj = { hits: playerHits, percentage: playerPercentage };
   scoresArray.push(scoreObj);
   scoresArray.sort((a, b) => b.hits - a.hits); // Sort scores by hits
@@ -163,10 +226,47 @@ function updateScores() {
 }
 
 // End Game
-function gameEnded() {
-  removeInputArea();
+function endGame() {
+  inputIsVisible = false;
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
+    console.log(scoresArray);
+  }
+  updateScores(); // Call the function to update scores array and store in local storage
+}
+
+let leaderboardIsVisible = false;
+function toogleLeaderBoard() {
+  if (!leaderboardIsVisible){
+    leaderBoard.classList.add('isvisible');
+    leaderboardIsVisible = true;
+  } else {
+    leaderBoard.classList.remove('isvisible');
+    leaderboardIsVisible = false;
   }
 }
+
+let playAreaisVisible = true; //play area visible at default
+function tooglePlayArea() {
+  if (!playAreaisVisible) {
+    playArea.classList.add('isvisible');
+    playAreaisVisible = true;
+  }else {
+    playArea.classList.remove('isvisible');
+    playAreaisVisible = false;
+  }
+}
+
+function toogleStopButton() {
+  startButton.classList.remove('isvisible');
+  stopButton.classList.add('isvisible');
+  gameRunning = true;
+}
+
+function toogleStartButton() {
+  stopButton.classList.remove('isvisible');
+  startButton.classList.add('isvisible');
+  gameRunning = false;
+}
+
