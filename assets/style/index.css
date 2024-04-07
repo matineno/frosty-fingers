@@ -53,6 +53,10 @@
     gap: 50px;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 body {
     background-image: url("../media/background.gif");
     background-repeat: repeat;
@@ -172,7 +176,7 @@ h1, h2, h3, p {
       }
 
       ul li {
-        margin-right: 10px;
+        margin-right: 100px;
       }
 }
 
