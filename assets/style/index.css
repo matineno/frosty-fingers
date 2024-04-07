@@ -104,6 +104,7 @@ h1, h2, h3, p {
     font-family: 'Snowballs Custom', sans-serif;
     letter-spacing: 5px;
     font-size: 25px;
+    margin-top: 50px;
     &:hover {
         cursor: pointer;
         text-decoration: underline;
@@ -131,7 +132,7 @@ h1, h2, h3, p {
 }
 
 
-#score-output {
+#leader-board {
     cursor: default;
     overflow: hidden;
     z-index: 9999;
@@ -143,7 +144,7 @@ h1, h2, h3, p {
 }
   
     
-#score-output.isvisible {
+#leader-board.isvisible {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -158,9 +159,9 @@ h1, h2, h3, p {
 .scores-list {
     width: 320px;
     height: 300px;
-    margin: 20px;  
-    padding-top: 40px;
     justify-content: center;
+    justify-content: center; 
+    align-items: center;
    
     ul { 
         display: grid;
@@ -176,7 +177,7 @@ h1, h2, h3, p {
 }
 
 input {
-    display: none;
+    display: block;
     margin: 0 auto;
     width: 300px; /* Adjust width as needed */
     padding: 10px;
@@ -186,12 +187,12 @@ input {
 }
 
 .visible {
-    display: block;
+    display: none;
 }
 
 i {
     margin: 0 auto;
-    font-size: 40px;
+    font-size: 50px;
     text-align: center;
     justify-content: center;
     color: #fff;
@@ -200,10 +201,30 @@ i {
     }
 }
 
+.action-button {
+    position: relative;
+    margin-left: 18px;
+}
+
 #stop-button {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-left: 8px;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
     &:hover{
         color: #ffbf00;
     }
+}
+
+    
+#stop-button.isvisible {
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    display: block;
 }
 
 .stop-text {
@@ -211,9 +232,22 @@ i {
 }
 
 #start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
     &:hover{
         color:  #01875f;
     }
+}
+
+#start-button.isvisible {
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    display: block;
 }
 
 .start-text {
@@ -222,8 +256,8 @@ i {
 
 .play-menu {
     position: absolute;
-    bottom: calc(50% - 280px);
-    left: 50%;
+    bottom: calc(50% - 240px);
+    left: calc(50% - 30px);
     transform: translate(-50%, -50%);
     color: #fff;
 }

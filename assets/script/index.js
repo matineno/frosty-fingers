@@ -10,6 +10,7 @@ const input = utils.getElement('user-input');
 const startButton = utils.getElement('start-button');
 const stopButton = utils.getElement('stop-button');
 const leaderBoard = utils.getElement('leader-board');
+const leaderBoardButton = utils.getElement('leader-board-button');
 const playArea = utils.getElement('play-area');
 const timerDuration = 99;
 let timeRemaining = timerDuration;
@@ -20,6 +21,7 @@ let currentScore = utils.getElement('current-score');
 let startingScore = 0;
 let shuffledArray = randomizeWords();
 let inputIsVisible = false;
+let gameRunning = false;
 let sound; // declare sound variable globally
 let backgroundSound;
 let playerHits = 0;
@@ -77,28 +79,30 @@ utils.listen('DOMContentLoaded', document, () => {
 
 // Start game
 utils.listen('click', startButton, () => {
+  toogleStopButton();
+  toggleInputArea();
   resetGame(); // Reset game, timer, and sound
-  startTimer();
+  startGame();
   startSound();
   startbackgroundAudio();
   displayWord();
-  if (!inputIsVisible) {
-  displayInputArea();
-  }
 });
 
 // End game
 utils.listen('click', stopButton, () => {
-  //resetGame();
-  gameEnded();
+  toogleStartButton();
+  toggleInputArea();
+  endGame();
   stopTimer();
   createScoreList(scoresArray);
   //startbackgroundAudio();
 });
 
-utils.listen('click', leaderBoard, () => {
-  tooglePlayArea();
-  toogleLeaderBoard()
+utils.listen('click', leaderBoardButton, () => {
+  if(!gameRunning){
+    tooglePlayArea();
+    toogleLeaderBoard()
+  }
 });
 
 utils.listen('input', input, () => {
@@ -109,7 +113,8 @@ function randomizeWords() {
   return words.sort(() => Math.random() - 0.5);
 }
 
-function startTimer() {
+function startGame() {
+  inputIsVisible = true;
   timeRemaining = timerDuration; // Reset time remaining
   timeRemainingSpan.textContent = timeRemaining;
   timerInterval = setInterval(() => {
@@ -150,15 +155,16 @@ function displayWord() {
   displayedWord.textContent = shuffledArray[0];
 }
 
-function displayInputArea() {
-  input.classList.toggle('visible');
-  inputIsVisible = true;
+function toggleInputArea() {
+  if (inputIsVisible) {
+    input.classList.toggle('visible');
+    inputIsVisible = false;
+  } else {
+    input.classList.toggle('visible');
+    inputIsVisible = true;
+  }
 }
 
-function removeInputArea() {
-  input.classList.remove('visible');
-  inputIsVisible = false;
-}
 
 function checkInput() {
   let gotAMatch = displayedWord.textContent === input.value;
@@ -220,9 +226,8 @@ function updateScores() {
 }
 
 // End Game
-
-function gameEnded() {
-  removeInputArea();
+function endGame() {
+  inputIsVisible = false;
   if (sound) {
     sound.pause(); // Pause the sound if it's playing
     sound.currentTime = 0; // Reset playback to the beginning
@@ -234,10 +239,10 @@ function gameEnded() {
 let leaderboardIsVisible = false;
 function toogleLeaderBoard() {
   if (!leaderboardIsVisible){
-    scoreOutput.classList.add('isvisible');
+    leaderBoard.classList.add('isvisible');
     leaderboardIsVisible = true;
   } else {
-    scoreOutput.classList.remove('isvisible');
+    leaderBoard.classList.remove('isvisible');
     leaderboardIsVisible = false;
   }
 }
@@ -251,5 +256,17 @@ function tooglePlayArea() {
     playArea.classList.remove('isvisible');
     playAreaisVisible = false;
   }
+}
+
+function toogleStopButton() {
+  startButton.classList.remove('isvisible');
+  stopButton.classList.add('isvisible');
+  gameRunning = true;
+}
+
+function toogleStartButton() {
+  stopButton.classList.remove('isvisible');
+  startButton.classList.add('isvisible');
+  gameRunning = false;
 }
 

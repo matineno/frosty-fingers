@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="author" content="Manpreet Kaur">
-        <meta name="description" content="Movies Search">
-        <meta name="keywords" content="html, css, web, web development, javascript">
-        <title>FrostyFingers</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.ttf">
-        <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.otf">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrspecht/cdn/reset.css">
-        <link rel="stylesheet" href="./assets/style/index.css" media="all">
-        <script src="./assets/script/index.js" type="module" defer></script>    </head>
-    <body>
-        <main>
-            <h1 class="title">FrostyFingers</h1>
-            <div class="container">
-                <div id="play-area" class="isvisible">
-                    <div class="flex space-between">
-                        <span>
-                            <p>Time</p>
-                            <p class="time-left" id="time-remaining">0</p>
-                        </span>
-                        <span>
-                            <p class="time-up" id="timer" class="visible"></p>
-                        </span>
-                        <span>
-                            <p>Score</p>
-                            <p class="score" id="current-score">0</p>
-                        </span>
-                    </div>
-                    <div class="play-area">
-                        <h3 id="word-display" class="output-word">Press the play button</h3>
-                        <form>
-                            <input type="text" class="input" class="visible" id="user-input" placeholder="Please type the word here">
-                        </form>
-                    </div>
-                </div>
-                <div id="score-output" >
-                    <p class="leader-board-title">LeaderBoard</p>
-                    <div class="scores-list"></div>
-                </div>
-            </div>
-            <div class="play-menu flex gap-20">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Manpreet Kaur">
+    <meta name="description" content="Movies Search">
+    <meta name="keywords" content="html, css, web, web development, javascript">
+    <title>FrostyFingers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.ttf">
+    <link rel="stylesheet" href="./assets/fonts/snowballs/Snowballs.otf">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrspecht/cdn/reset.css">
+    <link rel="stylesheet" href="./assets/style/index.css" media="all">
+    <script src="./assets/script/index.js" type="module" defer></script>
+</head>
+<body>
+<main>
+    <h1 class="title">FrostyFingers</h1>
+    <div class="container">
+        <div id="play-area" class="isvisible">
+            <div class="flex space-between">
                 <span>
-                    <i class="fa-regular fa-rectangle-list" id="leader-board" class="button"></i>
+                    <p>Time</p>
+                    <p class="time-left" id="time-remaining">0</p>
                 </span>
                 <span>
-                    <i class="fa-solid fa-stop" id="stop-button" class="button"></i>
+                    <p class="time-up visible" id="timer"></p>
                 </span>
                 <span>
-                    <i class="fa-solid fa-play" id="start-button" class="button"></i>
-                </span>
-                <span>
-                    <i class="fa-solid fa-snowflake"></i>
+                    <p>Score</p>
+                    <p class="score" id="current-score">0</p>
                 </span>
             </div>
-        </main>
-    </body>
+            <div class="play-area">
+                <h3 id="word-display" class="output-word">Press the play button</h3>
+                <form>
+                    <input type="text" class="input visible" id="user-input" placeholder="Please type the word here">
+                </form>
+            </div>
+        </div>
+        <div id="leader-board">
+            <h3 class="leader-board-title">LeaderBoard</h3>
+            <div id="score-output"></div>
+        </div>
+    </div>
+    <div class="play-menu flex gap-20">
+        <span>
+            <i class="fa-solid fa-bars-staggered button" id="leader-board-button" class="leader-board-button"></i>
+        </span>
+        <span class="action-button">
+            <i class="fa-solid fa-stop button" id="stop-button"></i>
+            <i class="fa-solid fa-play isvisible button" id="start-button"></i>
+        </span>
+    </div>
+</main>
+</body>
 </html>
