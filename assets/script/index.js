@@ -12,7 +12,7 @@ const stopButton = utils.getElement('stop-button');
 const leaderBoard = utils.getElement('leader-board');
 const leaderBoardButton = utils.getElement('leader-board-button');
 const playArea = utils.getElement('play-area');
-const timerDuration = 60;
+const timerDuration = 99;
 let timeRemaining = timerDuration;
 let timerInterval;
 const timerElement = utils.getElement('timer');
@@ -105,14 +105,14 @@ utils.listen('click', startButton, () => {
     toogleStopButton();
     toggleInputArea();
     gameStarted();
-    
   }
 });
 
 // End game
 utils.listen('click', stopButton, () => {
   gameEnded();
-  resetGame();
+  displayResult();
+  displayLeaderBoard();
 });
 
 utils.listen('click', leaderBoardButton, () => {
@@ -140,13 +140,13 @@ function startGame() {
     timeRemainingSpan.textContent = timeRemaining;
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
-      displayedWord.textContent = 'Time\'s up!';
       gameEnded();
-      clearInput();
-      setTimeout(resetGame, 3000);
+      displayResult();
+      displayLeaderBoard()
     }
   }, 1000);
 }
+
 function gameStarted () {
     startGame();
     startSound();
@@ -183,6 +183,20 @@ function startbackgroundAudio() {
   backgroundSound.loop = true;
   backgroundSound.play();
 }
+function displayResult() {
+  let greeting = "";
+  if (playerPercentage < 10) {
+      greeting = "Ouch";
+  } else if (playerPercentage >= 10 && playerPercentage < 35) {
+      greeting = "Almost there";
+  } else if (playerPercentage >= 35 && playerPercentage < 70) {
+      greeting = "Impressive";
+  } else if (playerPercentage >= 70 && playerPercentage <= 100) {
+      greeting = "Bravo";
+  }
+  displayedWord.textContent = greeting;
+}
+
 
 function displayWord() {
   displayedWord.textContent = shuffledArray[0];
@@ -200,15 +214,23 @@ function toggleInputArea() {
 
 function checkInput() {
   let inputText = input.value.trim();
-  let displayedText = displayedWord.textContent.trim(); 
+  let displayedText = displayedWord.textContent.trim();
 
   for (let i = 0; i < inputText.length && i < displayedText.length; i++) {
     if (inputText[i] !== displayedText[i]) {
+      input.disabled = true;
+      displayedWord.textContent = 'Oops';
       clearInput();
-      updateWord();
+
+      setTimeout(() => {
+        input.disabled = false;
+        input.focus();
+        updateWord();
+      }, 1000);
       return;
     }
   }
+
   if (inputText === displayedText) {
     updateWord();
     updateScore();
@@ -216,6 +238,7 @@ function checkInput() {
     updateHitsAndPercentage();
   }
 }
+
 
 
 function updateWord() {
@@ -267,6 +290,23 @@ function resetGame() {
     input.classList.toggle('visible');
     inputIsVisible = false;
 }
+}
+
+function displayLeaderBoard() {
+  setTimeout(() => {
+    displayedWord.textContent = "";
+    tooglePlayArea();
+    toogleLeaderBoard();
+    setTimeout(() => {
+      displayedWord.textContent = "";
+      clearInput();
+      resetGame();
+    }, 3000);
+  }, 3000);
+  setTimeout(() => {
+    toogleLeaderBoard();
+    tooglePlayArea();
+  }, 6000);
 }
 
 // Update scores array
