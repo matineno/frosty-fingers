@@ -72,11 +72,14 @@ h1, h2, h3, p {
     position: absolute;
     font-family: 'Snowballs Header', sans-serif;
     letter-spacing: 5px;
-    color: #fff;
     top: calc(50% - 200px);
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: -2px -5px 15px #000000 20%;
+    background: linear-gradient(to right, #ffffff, #969fa7);
+    background-clip: text;
+    -webkit-background-clip: text; /* For Safari */
+    color: transparent;
 }
 
 .play-area {
@@ -166,28 +169,36 @@ h1, h2, h3, p {
     justify-content: center;
     justify-content: center; 
     align-items: center;
+    padding-right: 25px;
    
     ul { 
         display: grid;
-        grid-template-columns: repeat(auto-fill, 100px);
-        grid-gap: 12px;
+        grid-template-columns: repeat(auto-fill, 120px);
+        grid-column-gap: 50px;
         justify-content: center; 
         align-items: center;
+        text-align: left;
+        
       }
 
       ul li {
-        margin-right: 100px;
       }
 }
 
-input {
+.user-input {
+    font-family: 'Snowballs Header', sans-serif;
+    font-size: 40px;
+    color: #fff;
     display: block;
     margin: 0 auto;
-    width: 300px; /* Adjust width as needed */
+    height: 50px;
+    width: 300px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
+    caret-color: transparent;
+    background-image: url("../media/input-bg.gif");
 }
 
 .visible {
@@ -252,6 +263,11 @@ i {
     opacity: 1;
     visibility: visible;
     display: block;
+}
+
+.leader-board-button {
+    width: 20px;
+    height: 20px;
 }
 
 .start-text {
