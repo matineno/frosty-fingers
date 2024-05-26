@@ -26,6 +26,7 @@ let sound;
 let backgroundSound;
 let playerHits = 0;
 let playerPercentage = 0;
+let scoresArray = [];
 
 class CustomDate {
   constructor() {
@@ -63,9 +64,6 @@ class Score {
   }
 }
 
-// Retrieve scores from local storage
-let scoresArray = JSON.parse(localStorage.getItem('scores')) || [];
-
 // Function to create ul and li elements from scores
 function createScoreList(scores) {
   const ul = document.createElement('ul');
@@ -85,8 +83,7 @@ function createScoreList(scores) {
 }
 
 // Initialize scores
-const scores = scoresArray.map(score => new Score(score.hits, score.percentage, score.thisDay));
-console.log()
+let scores = scoresArray.map(score => new Score(score.hits, score.percentage, score.thisDay));
 
 // Create HTML elements and set innerHTML of scoreOutput
 const scoresListHTML = createScoreList(scores);
@@ -96,6 +93,8 @@ scoreOutput.classList.add('scores-list');
 // Sound on page load
 utils.listen('DOMContentLoaded', document, () => {
   startbackgroundAudio();
+  // Retrieve scores from local storage
+  scoresArray = JSON.parse(localStorage.getItem('scores')) || [];
 });
 
 // Start game
@@ -138,6 +137,12 @@ function startGame() {
   timerInterval = setInterval(() => {
     timeRemaining--;
     timeRemainingSpan.textContent = timeRemaining;
+    if (playerPercentage >= 100) {
+      gameEnded();
+      displayedWord.textContent = 'You Win!';
+      setTimeout(resetGame, 3000);
+      displayLeaderBoard();
+    }
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
       gameEnded();
@@ -183,6 +188,7 @@ function startbackgroundAudio() {
   backgroundSound.loop = true;
   backgroundSound.play();
 }
+
 function displayResult() {
   let greeting = "";
   if (playerPercentage < 10) {
@@ -254,12 +260,6 @@ function updateScore() {
 
 function calculatePercentage (playerHits, words) {
   let percent = ((playerHits / words.length) * 100).toFixed(0);
-  if (percent >= 100) {
-    gameEnded();
-    displayedWord.textContent = 'You Win!';
-      setTimeout(resetGame, 3000);
-    return 100;
-  }
   return percent;
 };
 
