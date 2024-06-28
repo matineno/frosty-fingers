@@ -12,7 +12,7 @@ const stopButton = utils.getElement('stop-button');
 const leaderBoard = utils.getElement('leader-board');
 const leaderBoardButton = utils.getElement('leader-board-button');
 const playArea = utils.getElement('play-area');
-const timerDuration = 99;
+const timerDuration = 60;
 let timeRemaining = timerDuration;
 let timerInterval;
 const timerElement = utils.getElement('timer');
