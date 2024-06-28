@@ -1,6 +1,6 @@
 # FrostyFingers
 
-[Click Here](https://matineno.github.io/word-sprint-challenge/) to test.
+[Click Here](https://matineno.github.io/frosty-fingers/) to test.
 
 ## Description
 FrostyFingers is a fast-paced word game where players race against the clock to find as many words as possible within a given time limit.
